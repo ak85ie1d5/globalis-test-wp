@@ -46,9 +46,15 @@ function register_post_type_event()
             'registrations' => ['title' => 'Registrations', 'sortable' => false, 'function' => function () {
                 global $post;
                 global $wpdb;
-                $sql_query = $wpdb->prepare("SELECT COUNT(`post_id`) as count FROM %i WHERE `meta_key` = 'registration_event_id' AND `meta_value` = %d", $wpdb->postmeta, $post_id);
+                $sql_query = $wpdb->prepare("SELECT COUNT(`post_id`) as count FROM %i WHERE `meta_key` = 'registration_event_id' AND `meta_value` = %d", $wpdb->postmeta, $post->ID);
                 $result = $wpdb->get_row($sql_query, ARRAY_A);
                 echo $result['count'];
+            }],
+            'export' => ['title' => 'Export', 'sortable' => false, 'function' => function () {
+                global $post;
+                ?>
+                <a href="<?= admin_url('admin-post.php?action=export_to_excel&event_id=' . $post->ID) ?>" target="_blank">Export to Excel</a>
+                <?php
             }],
         ],
         'admin_filters'        => [],
